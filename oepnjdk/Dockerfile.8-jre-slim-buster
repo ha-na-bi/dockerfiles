@@ -1,0 +1,17 @@
+FROM openjdk:8-jre-slim-buster
+
+LABEL author=fn
+
+ENV LANG=C.UTF-8
+
+# 设置阿里云镜像源
+RUN sed -i -E 's/(deb|security).debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list \
+    && apt-get update
+
+# 基础运维调试工具：curl procps iputils-ping nano htop psmisc
+# 字体，支持 POI Excel 的导出功能：fontconfig ttf-dejavu
+RUN apt-get install -y --no-install-recommends \
+       curl procps iputils-ping nano htop psmisc fontconfig ttf-dejavu \
+    && rm -rf /var/lib/apt/lists/*
+    
+CMD ["bash"]
